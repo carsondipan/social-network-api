@@ -1,4 +1,4 @@
-const { Thought } = require('../models');
+const { Thought, User } = require('../models');
 
 module.exports = {
     getThoughts (req, res) {
@@ -17,8 +17,9 @@ module.exports = {
     },
     createThought (req, res) {
         Thought.create(req.body)
-            .then(thoughtData) => res.json(thoughtData)
-            .catch((err) => res.status(500).json(err));
+            .then((thought) => {
+                return 
+            })
     },
     addReaction (req, res) {
         Thought.findById(req.params.thoughtId, function (err, event) {
