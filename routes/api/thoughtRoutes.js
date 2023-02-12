@@ -6,6 +6,7 @@ const {
     getAThought,
     createThought,
     addReaction,
+    deleteReaction,
     updateThought,
     deleteThought,
 
