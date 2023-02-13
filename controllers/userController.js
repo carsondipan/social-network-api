@@ -59,6 +59,27 @@ module.exports = {
             });
     },
     addFriend(req,res) {
-        
-    }
+      User.findOneAndUpdate({_id: req.params.userId}, {$push:{friends: req.params.friendsId}}, {new: true})
+        .then((user) =>
+            {
+                res.status(200).json(user)
+            }
+        )
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json(err);
+        })
+    },
+    deleteFriend(req,res) {
+        User.findOneAndUpdate({ _id: req.params.userId}, {$pull:{friends: req.params.friendsId}}, { new: true })
+            .then((user) =>
+                {
+                    res.status(200).json(user)
+                }
+            )
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json(err);
+            })
+    },
 };

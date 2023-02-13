@@ -1,29 +1,5 @@
 const mongoose = require('mongoose');
 
-const thoughtSchema = new mongoose.Schema(
-    {
-        thoughtText: {
-            type: String,
-            required: true,
-        },
-        createdAt: {
-            type: Date,
-            default: Date.now(),
-        },
-        username: {
-            type: String,
-            required: true,
-        },
-        reactions: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Reaction',
-            },
-        ],
-
-    },
-);
-
 const reactionSchema = new mongoose.Schema(
     {
         reactionId: {
@@ -45,6 +21,35 @@ const reactionSchema = new mongoose.Schema(
     }
 );
 
+const thoughtSchema = new mongoose.Schema(
+    {
+        thoughtText: {
+            type: String,
+            required: true,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now(),
+        },
+        username: {
+            type: String,
+            required: true,
+        },
+        reactions: [
+            // {
+            //     type: mongoose.Schema.Types.ObjectId,
+            //     ref: 'Reaction',
+            // },
+
+            reactionSchema
+
+        ],
+
+    },
+);
+
+
+
 thoughtSchema
     .virtual('reactionCount')
     .get(function () {
@@ -53,19 +58,19 @@ thoughtSchema
 );
 
 const Thought = mongoose.model('Thought', thoughtSchema);
-const Reaction = mongoose.model('Reaction', reactionSchema);
+// const Reaction = mongoose.model('Reaction', reactionSchema);
 
 const errHandler = (err) => console.error(err);
 
 const init = async () => {
-    await Reaction.deleteMany({});
-    await Reaction.create(
-        {
-            reactionBody: 'beans haha',
-            username: 'jawncena',
-        },
-        (err) => (err ? errHandler(err) : console.log('Created new reaction'))
-    );
+//     await Reaction.deleteMany({});
+//     await Reaction.create(
+//         {
+//             reactionBody: 'beans haha',
+//             username: 'jawncena',
+//         },
+//         (err) => (err ? errHandler(err) : console.log('Created new reaction'))
+//     );
     await Thought.deleteMany({});
     await Thought.create(
         {
@@ -78,4 +83,4 @@ const init = async () => {
 
 init();
 
-module.exports = Thought, Reaction;
+module.exports = Thought;

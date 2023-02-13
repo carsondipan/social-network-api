@@ -23,18 +23,31 @@ module.exports = {
                 return res.status(500).json(err);
             });
     },
-    // addReaction (req, res) {
-    //     Thought.findById(req.params.thoughtId, function (err, event) {
-    //         if(!err) {
+    addReaction (req, res) {
+        Thought.findByIdAndUpdate({_id: req.params.thoughtId}, {$push:{reactions: req.body.reactionBody}}, {new: true})
+            .then((thought) =>
+                {
+                    res.status(200).json(thought)
+                }
+            )
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json(err);
+            })
 
-    //         }
-    //     })
-    // },
-    // deleteReaction (req,res) {
-    //     Thought.findById(req.params.thoughtId, function (err, event){
-
-    //     })
-    // },
+    },
+    deleteReaction (req,res) {
+        Thought.findByIdAndUpdate({_id: req.params.reactionId}, {$pull:{reactionId: req.params.reactionId}}, {new: true})
+            .then((reaction) =>
+                {
+                    res.status(200).json(reaction)
+                }
+            )
+            .catch((err) => {
+                console.log(err);
+                res.status(500).json(err);
+            })
+    },
     updateThought(req, res) {
         Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
