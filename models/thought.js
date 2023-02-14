@@ -15,7 +15,6 @@ const reactionSchema = new mongoose.Schema(
             required: true,
         },
         createdAt: {
-            type: Date,
             type: Date, default: Date.now
         },
     }
@@ -60,27 +59,27 @@ thoughtSchema
 const Thought = mongoose.model('Thought', thoughtSchema);
 // const Reaction = mongoose.model('Reaction', reactionSchema);
 
-const errHandler = (err) => console.error(err);
+// const errHandler = (err) => console.error(err);
 
-const init = async () => {
-//     await Reaction.deleteMany({});
-//     await Reaction.create(
+// const init = async () => {
+// //     await Reaction.deleteMany({});
+// //     await Reaction.create(
+// //         {
+// //             reactionBody: 'beans haha',
+// //             username: 'jawncena',
+// //         },
+// //         (err) => (err ? errHandler(err) : console.log('Created new reaction'))
+// //     );
+//     await Thought.deleteMany({});
+//     await Thought.create(
 //         {
-//             reactionBody: 'beans haha',
-//             username: 'jawncena',
+//             thoughtText: 'dude what if we cooked it with gas',
+//             username: 'jawncena'
 //         },
-//         (err) => (err ? errHandler(err) : console.log('Created new reaction'))
+//         (err) => (err ? errHandler(err) : console.log('Created new thought'))
 //     );
-    await Thought.deleteMany({});
-    await Thought.create(
-        {
-            thoughtText: 'dude what if we cooked it with gas',
-            username: 'jawncena'
-        },
-        (err) => (err ? errHandler(err) : console.log('Created new thought'))
-    );
-};
+// };
 
-init();
+// init();
 
 module.exports = Thought;

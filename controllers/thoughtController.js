@@ -24,7 +24,7 @@ module.exports = {
             });
     },
     addReaction (req, res) {
-        Thought.findByIdAndUpdate({_id: req.params.thoughtId}, {$push:{reactions: req.body.reactionBody}}, {new: true})
+        Thought.findByIdAndUpdate({_id: req.params.thoughtId}, {$push:{reactions: req.body}}, {new: true})
             .then((thought) =>
                 {
                     res.status(200).json(thought)
@@ -37,7 +37,7 @@ module.exports = {
 
     },
     deleteReaction (req,res) {
-        Thought.findByIdAndUpdate({_id: req.params.reactionId}, {$pull:{reactionId: req.params.reactionId}}, {new: true})
+        Thought.findByIdAndUpdate({_id: req.params.thoughtId}, {$pull:{reactions: {reactionId: req.params.reactionId}}}, {new: true})
             .then((reaction) =>
                 {
                     res.status(200).json(reaction)

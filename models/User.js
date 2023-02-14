@@ -4,8 +4,8 @@ const userSchema = new mongoose.Schema(
     {
         username: { type: String, required: true },
         email: { type: String, required: true },
-        thoughts: { type: Array },
-        friends: { type: Array },
+        thoughts: [{type: mongoose.Schema.Types.ObjectId, ref: "Thought"}],
+        friends: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}]
     },
     {
         toJSON: {
@@ -21,23 +21,23 @@ userSchema
         return this.friends.length;
     })
 
-const User = mongoose.model('user', userSchema);
+const User = mongoose.model('User', userSchema);
 
 const errorHandle = (err) => console.error(err);
 
-const init = async () => {
-    await User.deleteMany({});
-    await User.create(
-        {
-            username: 'jawncena',
-            email: 'jawncena@gmail.com',
-            thoughts: [1,2,3],
-            friends: [1,2,3],
-        },
-        (err) => (err ? errorHandle(err) : console.log('New user created.'))
-    );
-};
+// const init = async () => {
+//     await User.deleteMany({});
+//     await User.create(
+//         {
+//             username: 'jawncena',
+//             email: 'jawncena@gmail.com',
+//             // thoughts: [1,2,3],
+//             // friends: [1,2,3],
+//         },
+//         (err) => (err ? errorHandle(err) : console.log('New user created.'))
+//     );
+// };
 
-init();
+// init();
 
 module.exports = User;
