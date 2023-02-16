@@ -10,7 +10,6 @@ module.exports = {
     getSingleUser (req, res) {
         User.findOne({ _id: req.params.userId })
             .select('-__v')
-            .populate('posts')
             .then((user) =>
                 !user
                     ? res.status(404).json({ message: 'uhhhh... no user w that id...'})
@@ -36,27 +35,14 @@ module.exports = {
             .catch((err) => res.status(500).json(err));
     },
     deleteUser(req,res) {
-        User.findOneAndRemove({_id: req.params.userId})
+        User.findOneAndDelete({_id: req.params.userId})
             .then((user) =>
-                !student
+                !user
                     ?res.status(404).json({ message: 'No user found with that ID' })
-                    : User.findOneAndUpdate(
-                        {users: req.params.userId},
-                        {$pull: { students: req.params.userId }},
-                        {new: true }
-                    )
+                    : Thought.deleteMany({ _id: { $in: user.thoughts } })
             )
-            .then((thought) => 
-                !thought
-                        ?res.status(404).json({
-                            message: 'Deleted, but no thought found.',
-                            })
-                        : res.json({ message: 'Deletion complete.'})
-            )
-            .catch((err) => {
-                console.log(err);
-                res.status(500).json(err);
-            });
+            .then(() => res.json({ message: 'Deleted successfully.'}))
+            .catch((err) => res.status(500).json(err));
     },
     addFriend(req,res) {
       User.findOneAndUpdate({_id: req.params.userId}, {$push:{friends: req.params.friendsId}}, {new: true})
